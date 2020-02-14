@@ -1,6 +1,6 @@
 FROM python:3.7
 
-LABEL Description="Query AWS account for on infrastructure information"
+LABEL Description="Query AWS account for an infrastructure information"
 LABEL Version = "0.2"
 
 # Project Files and Settings
@@ -11,8 +11,7 @@ RUN mkdir -p $PROJECT_DIR
 WORKDIR $PROJECT_DIR
 COPY . $PROJECT_DIR
 
-RUN pip install django
-RUN pip install django-tables2 & pip install boto3
+RUN pip install -r requirements.txt
 
 # Server
 EXPOSE 8000
