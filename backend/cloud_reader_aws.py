@@ -153,12 +153,7 @@ class ReaderAws:
         elb_instances = elb_client.describe_load_balancers()
         elb_instances_info = elb_instances['LoadBalancers']
 
-        elb_info_list = []
-
-        for elb_instance_reservation in elb_instances_info:
-            elb_info_list.append(elb_instance_reservation)
-
-        return elb_info_list
+        return elb_instances_info
 
     def get_s3_info(self):
         self.set_boto3_client('s3')
