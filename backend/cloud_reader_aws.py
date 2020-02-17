@@ -120,7 +120,7 @@ class ReaderAws:
             r53_hosted_zoneid = r53_hosted_zone["Id"]
             r53_zone_record_sets = r53_client.list_resource_record_sets(HostedZoneId=r53_hosted_zoneid)
 
-            ignored_record_types = set(["SOA", "NS"])
+            ignored_record_types = set(["SOA", "NS" , "TXT"])
 
             for zone_record_set in r53_zone_record_sets["ResourceRecordSets"]:
 
@@ -129,13 +129,15 @@ class ReaderAws:
 
                 if zone_record_set["Type"] == "A":
                     if 'AliasTarget' in zone_record_set:
-                        zone_record_set["TargetDNSName"] = zone_record_set["AliasTarget"]["DNSName"]
+                        target_list = []
+                        target_list.append(zone_record_set["AliasTarget"]["DNSName"])
+                        zone_record_set["Target"] = target_list
 
                     if 'ResourceRecords' in zone_record_set:
-                        zone_record_set["TargetDNSName"] = zone_record_set["ResourceRecords"][0]["Value"]
+                        zone_record_set["Target"] = [list_of_targets['Value'] for list_of_targets in zone_record_set["ResourceRecords"]]
 
                 if zone_record_set["Type"] == "CNAME":
-                    zone_record_set["TargetDNSName"] = zone_record_set["ResourceRecords"][0]["Value"]
+                    zone_record_set["Target"] = [list_of_targets['Value'] for list_of_targets in zone_record_set["ResourceRecords"]]
 
                 r53_info_list.append(zone_record_set)
 

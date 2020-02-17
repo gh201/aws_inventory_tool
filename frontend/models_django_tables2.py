@@ -28,12 +28,15 @@ class table_model_database_info(tables.Table):
 class table_model_dns_info(tables.Table):
     Name = tables.Column(order_by="Name")
     Type = tables.Column()
-    TargetDNSName = tables.Column()
+    Target = tables.Column(empty_values=())
+
+    def render_target(self, value, record):
+        string = ",".join(record['Target'])
+        return string
 
     class Meta:
         attrs = {'class': 'table table-hover'}
         order_by = "Name"
-
 
 class table_model_loadbalancing_info(tables.Table):
     LoadBalancerName = tables.Column(order_by="LoadBalancerName")
