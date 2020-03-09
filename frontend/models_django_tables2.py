@@ -15,9 +15,9 @@ class table_model_compute_info(tables.Table):
 
 class table_model_database_info(tables.Table):
     DatabaseName = tables.Column()
-    Status = tables.Column()
-    Endpoint = tables.Column()
-    InstanceCreateTime = tables.Column()
+    DatabaseStatus = tables.Column()
+    DatabaseAddress = tables.Column()
+    DatabaseCreateTime = tables.Column()
     Engine = tables.Column()
     EngineVersion = tables.Column()
 

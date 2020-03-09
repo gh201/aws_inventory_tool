@@ -78,11 +78,14 @@ class ReaderAws:
         rds_info_list = []
 
         for rds_instance_reservation in rds_instances_info:
+            #custom values for consistancy with aurora response
+            instance_create_time = rds_instance_reservation["InstanceCreateTime"]
             instance_endpoint = rds_instance_reservation['Endpoint']["Address"]
-            rds_instance_reservation["Endpoint"] = instance_endpoint
-
             instance_status = rds_instance_reservation["DBInstanceStatus"]
-            rds_instance_reservation["Status"] = instance_status
+                        
+            rds_instance_reservation["DatabaseCreateTime"] = instance_create_time
+            rds_instance_reservation["DatabaseAddress"] = instance_endpoint
+            rds_instance_reservation["DatabaseStatus"] = instance_status
 
             if 'DBName' in rds_instance_reservation:
                 instance_db_name = rds_instance_reservation['DBName']
@@ -97,9 +100,15 @@ class ReaderAws:
         rds_aurora_instances = rds_client.describe_db_clusters()
         rds_aurora_instances_info = rds_aurora_instances['DBClusters']
 
-        for rds_instance_reservation in rds_aurora_instances_info:
-            instance_create_time = rds_instance_reservation['ClusterCreateTime']
-            rds_instance_reservation["InstanceCreateTime"] = instance_create_time
+        for aurora_instance_reservation in rds_aurora_instances_info:
+            #custom values for consistancy with rds response
+            instance_create_time = aurora_instance_reservation['ClusterCreateTime']
+            instance_endpoint = aurora_instance_reservation['Endpoint']
+            instance_status = aurora_instance_reservation["Status"]
+
+            aurora_instance_reservation["DatabaseCreateTime"] = instance_create_time
+            aurora_instance_reservation["DatabaseAddress"] = instance_endpoint
+            aurora_instance_reservation["DatabaseStatus"] = instance_status
 
             rds_info_list.append(rds_instance_reservation)
 
