@@ -15,12 +15,18 @@ class ReaderAws:
 
         log.info("Setting boto3 client for service: %s", service_name)
 
-        self.client = boto3.client(
-            service_name,
-            aws_access_key_id=self.aws_login,
-            aws_secret_access_key=self.aws_pass,
-            region_name=self.aws_region
-            )
+        if self.aws_login != 'not_set' and self.aws_pass != 'not_set':
+            self.client = boto3.client(
+                service_name,
+                aws_access_key_id=self.aws_login,
+                aws_secret_access_key=self.aws_pass,
+                region_name=self.aws_region
+                )
+        else:
+            self.client = boto3.client(
+                service_name,
+                region_name=self.aws_region
+                )
 
     def get_ec2_instance_info(self):
         self.set_boto3_client('ec2')

@@ -17,6 +17,11 @@ from .time_to_string_converter import TimeConverter
 logging.basicConfig(level="INFO")
 log = logging.getLogger(__name__)
 
+def login(request):
+    if request.user.is_authenticated:
+        return homepage(request)
+
+    return render(request, 'login.html')
 
 def homepage(request):
 

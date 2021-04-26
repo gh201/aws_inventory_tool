@@ -26,11 +26,15 @@ class CloudCredentials:
         log.info("Set credentials for account: %s", cloud_account_name)
 
         self.account_name = cloud_account_name
-        self.aws_login = config['key_id']
-        self.aws_pass = config['secret']
-        self.aws_region = config['region_name']
 
-        log.info("key_id: *******%s", self.aws_login[11:15])
+        if 'key_id' in config.keys():
+            self.aws_login = config['key_id']
+        if 'secret' in config.keys():
+            self.aws_pass = config['secret']
+        if 'region_name' in config.keys():
+            self.aws_region = config['region_name']
+
+        log.info("key_id: *******%s", self.aws_login[len(self.aws_login) - 3:])
         log.info("secret: ************")
         log.info("region: %s", self.aws_region)
 
