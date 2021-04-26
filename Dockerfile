@@ -13,6 +13,8 @@ COPY . $PROJECT_DIR
 
 RUN pip install -r requirements.txt
 
+RUN python manage.py makemigrations && python manage.py migrate
+
 # Server
 EXPOSE 8000
 STOPSIGNAL SIGINT
